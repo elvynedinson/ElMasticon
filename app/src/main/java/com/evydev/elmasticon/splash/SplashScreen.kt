@@ -44,7 +44,7 @@ fun SplashScreen(
                         modifier = Modifier.size(200.dp)
                     )
 
-                    Spacer(modifier = Modifier.height(24.dp))
+                    Spacer(modifier = Modifier.height(35.dp))
 
                     CircularProgressIndicator()
 
