@@ -21,7 +21,7 @@ class SplashViewModel() : ViewModel() {
         viewModelScope.launch {
 
             try {
-                delay(2000)
+                delay(5000)
                 _state.value = SplashUiState.Success
 
             }catch (e: Exception){

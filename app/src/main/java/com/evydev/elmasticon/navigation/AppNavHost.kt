@@ -4,9 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import com.evydev.elmasticon.login.LoginScreen
 import com.evydev.elmasticon.splash.SplashScreen
-import com.evydev.elmasticon.welcome.WelcomeScreen
 
 @Composable
 fun AppNavHost(navController: NavHostController){
@@ -20,8 +19,8 @@ fun AppNavHost(navController: NavHostController){
             SplashScreen(navController = navController)
         }
 
-        composable(Routes.WELCOME) {
-            WelcomeScreen()
+        composable(Routes.LOGIN) {
+            LoginScreen(navController = navController)
         }
     }
 }
