@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,7 +22,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -52,17 +52,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.evydev.elmasticon.R
+import com.evydev.elmasticon.navigation.Routes
 
 @Composable
-fun LoginScreen(navController: NavController){
+fun LoginScreen(navController: NavController) {
 
-    var email by rememberSaveable { mutableStateOf("")}
-    var password by rememberSaveable { mutableStateOf("")}
+    var email by rememberSaveable { mutableStateOf("") }
+    var password by rememberSaveable { mutableStateOf("") }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(color = Color(0xFFFCF8F8))
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -73,7 +74,7 @@ fun LoginScreen(navController: NavController){
                 .padding(16.dp),
             shape = RoundedCornerShape(24.dp)
         ) {
-            Box(contentAlignment = Alignment.BottomCenter){
+            Box(contentAlignment = Alignment.BottomCenter) {
                 Image(
                     painter = painterResource(R.drawable.pizza_background),
                     contentDescription = null,
@@ -124,11 +125,13 @@ fun LoginScreen(navController: NavController){
 
             Spacer(modifier = Modifier.height(25.dp))
 
-            LoginTextField(label = "Correo electrónico",
+            LoginTextField(
+                label = "Correo electrónico",
                 placeholder = "ejemplo@correo.com",
                 value = email,
-                onValueChange = { email = it},
-                leadingIcon = R.drawable.ic_mail)
+                onValueChange = { email = it },
+                leadingIcon = R.drawable.ic_mail
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -136,7 +139,7 @@ fun LoginScreen(navController: NavController){
                 label = "Contraseña",
                 placeholder = "********",
                 value = password,
-                onValueChange = { password = it},
+                onValueChange = { password = it },
                 isPassword = true,
                 leadingIcon = R.drawable.ic_lock
             )
@@ -144,7 +147,9 @@ fun LoginScreen(navController: NavController){
             Text(
                 text = "¿Olvidaste tu contraseña?",
                 style = TextStyle(fontSize = 15.sp),
-                modifier = Modifier.align(Alignment.End).padding(top = 8.dp),
+                modifier = Modifier
+                    .align(Alignment.End)
+                    .padding(top = 8.dp),
                 color = Color(0xFFEC1313),
                 fontWeight = FontWeight.SemiBold
             )
@@ -153,7 +158,9 @@ fun LoginScreen(navController: NavController){
 
             Button(
                 onClick = {},
-                modifier = Modifier.fillMaxWidth().height(56.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFEC1313)),
                 shape = RoundedCornerShape(12.dp)
             ) {
@@ -177,7 +184,9 @@ fun LoginScreen(navController: NavController){
 
             OutlinedButton(
                 onClick = {},
-                modifier = Modifier.fillMaxWidth().height(56.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
                 shape = RoundedCornerShape(12.dp),
                 border = BorderStroke(1.dp, Color.LightGray)
             ) {
@@ -195,20 +204,28 @@ fun LoginScreen(navController: NavController){
                     Text("Continuar con Google", color = Color.Black, fontWeight = FontWeight.Bold)
                 }
             }
-            }
-            Spacer(modifier = Modifier.height(29.dp))
-
-                Text(
-                    text = buildAnnotatedString {
-                        append("¿No tienes cuenta? ")
-                        withStyle(style = SpanStyle(color = Color.Red, fontWeight = FontWeight.Bold)){
-                            append("Regístrate")
-                        }
-                    },
-                    modifier = Modifier.padding(bottom = 32.dp)
-                )
-            }
         }
+        Spacer(modifier = Modifier.height(29.dp))
+
+        Row() {
+            Text(
+                text = "¿No tienes cuenta?"
+            )
+            Text(
+                text = buildAnnotatedString {
+                    withStyle(style = SpanStyle(color = Color.Red, fontWeight = FontWeight.Bold)) {
+                        append(" Regístrate")
+                    }
+                },
+                modifier = Modifier
+                    .padding(bottom = 32.dp)
+                    .clickable {
+                        navController.navigate(Routes.REGISTER)
+                    }
+            )
+        }
+    }
+}
 
 @Composable
 fun LoginTextField(
@@ -217,9 +234,10 @@ fun LoginTextField(
     value: String,
     onValueChange: (String) -> Unit,
     isPassword: Boolean = false,
-    leadingIcon: Int) {
+    leadingIcon: Int
+) {
 
-    var passwordVisible by rememberSaveable{ mutableStateOf(false) }
+    var passwordVisible by rememberSaveable { mutableStateOf(false) }
 
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(text = label, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 8.dp))
@@ -227,22 +245,22 @@ fun LoginTextField(
             value = value,
             onValueChange = onValueChange,
             modifier = Modifier.fillMaxWidth(),
-            placeholder = { Text(placeholder, color = Color.Gray)},
+            placeholder = { Text(placeholder, color = Color.Gray) },
             shape = RoundedCornerShape(12.dp),
             leadingIcon = {
                 Icon(
                     painter = painterResource(id = leadingIcon),
                     contentDescription = null,
-                    modifier = Modifier.size(20.dp),
+                    modifier = Modifier.size(24.dp),
                     tint = Color(0xFF9D5151)
                 )
             },
             trailingIcon = {
-                if (isPassword){
-                    IconButton(onClick = {passwordVisible = !passwordVisible}) {
+                if (isPassword) {
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
                         Icon(
                             painter = painterResource(
-                                id = if (passwordVisible)  R.drawable.ic_eye_open else R.drawable.ic_eye_closed
+                                id = if (passwordVisible) R.drawable.ic_eye_open else R.drawable.ic_eye_closed
                             ),
                             contentDescription = null,
                             tint = Color(0xFF9D5151)
@@ -250,9 +268,9 @@ fun LoginTextField(
                     }
                 }
             },
-            visualTransformation = if (isPassword && !passwordVisible){
+            visualTransformation = if (isPassword && !passwordVisible) {
                 PasswordVisualTransformation()
-            }else{
+            } else {
                 VisualTransformation.None
             },
 

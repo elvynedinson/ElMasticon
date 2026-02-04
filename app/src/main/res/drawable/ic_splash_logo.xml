@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Fondo blanco -->
+    <item>
+        <color android:color="#FFFFFF"/>
+    </item>
+
+    <!-- Cuadrado naranja redondeado -->
+    <item
+        android:gravity="center"
+        android:width="180dp"
+        android:height="180dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#F47B20" />
+            <corners android:radius="32dp" />
+        </shape>
+    </item>
+
+    <!-- Logo con menos inset para que se vea más grande -->
+    <item
+        android:drawable="@drawable/splash"
+        android:gravity="center"
+        android:width="110dp"
+        android:height="110dp">
+    </item>
+</layer-list>

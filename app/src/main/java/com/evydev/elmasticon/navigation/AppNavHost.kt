@@ -5,22 +5,22 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.evydev.elmasticon.login.LoginScreen
-import com.evydev.elmasticon.splash.SplashScreen
+import com.evydev.elmasticon.register.RegisterScreen
 
 @Composable
 fun AppNavHost(navController: NavHostController){
 
     NavHost(
         navController = navController,
-        startDestination = Routes.SPLASH
+        startDestination = Routes.LOGIN
     ){
-
-        composable(Routes.SPLASH){
-            SplashScreen(navController = navController)
-        }
 
         composable(Routes.LOGIN) {
             LoginScreen(navController = navController)
+        }
+
+        composable(Routes.REGISTER){
+            RegisterScreen(navController = navController)
         }
     }
 }
