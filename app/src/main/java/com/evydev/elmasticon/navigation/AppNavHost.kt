@@ -4,7 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.evydev.elmasticon.CompleteProfile.CompleteProfileScreen
+import com.evydev.elmasticon.completeProfile.CompleteProfileScreen
+import com.evydev.elmasticon.home.HomeScreen
 import com.evydev.elmasticon.login.LoginScreen
 import com.evydev.elmasticon.register.RegisterScreen
 
@@ -13,7 +14,7 @@ fun AppNavHost(navController: NavHostController){
 
     NavHost(
         navController = navController,
-        startDestination = Routes.COMPLETEPROFILE
+        startDestination = Routes.LOGIN
     ){
 
         composable(Routes.LOGIN) {
@@ -26,6 +27,10 @@ fun AppNavHost(navController: NavHostController){
 
         composable(Routes.COMPLETEPROFILE){
             CompleteProfileScreen(navController = navController)
+        }
+
+        composable(Routes.HOME){
+            HomeScreen(navController = navController)
         }
     }
 }

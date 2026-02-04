@@ -1,4 +1,4 @@
-package com.evydev.elmasticon.CompleteProfile
+package com.evydev.elmasticon.completeProfile
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
