@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.evydev.elmasticon.completeProfile.CompleteProfileScreen
+import com.evydev.elmasticon.forgotPassword.ForgotPasswordScreen
 import com.evydev.elmasticon.home.HomeScreen
 import com.evydev.elmasticon.login.LoginScreen
 import com.evydev.elmasticon.register.RegisterScreen
@@ -32,5 +33,10 @@ fun AppNavHost(navController: NavHostController){
         composable(Routes.HOME){
             HomeScreen(navController = navController)
         }
+
+        composable(Routes.FORGOTPASSWORD) {
+            ForgotPasswordScreen(navController = navController)
+        }
+
     }
 }

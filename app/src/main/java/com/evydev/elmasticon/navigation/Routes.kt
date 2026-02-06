@@ -5,4 +5,5 @@ object Routes {
     const val REGISTER = "register"
     const val COMPLETEPROFILE = "completeprofile"
     const val HOME = "home"
+    const val FORGOTPASSWORD = "forgotpassword"
 }

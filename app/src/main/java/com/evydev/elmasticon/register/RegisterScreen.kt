@@ -19,12 +19,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -157,7 +159,7 @@ fun RegisterScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
-            onClick = {},
+            onClick = { showSheet = true},
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp),
@@ -256,6 +258,20 @@ fun RegisterScreen(navController: NavController) {
         }
 
     }
+
+    if (showSheet){
+        ModalBottomSheet(
+            onDismissRequest = { showSheet = false },
+            sheetState = sheetState,
+            containerColor = Color.White,
+            dragHandle = { BottomSheetDefaults.DragHandle() }
+        ) {
+            EmailVerificationContent {
+                showSheet = false
+            }
+        }
+    }
+
 }
 
 
@@ -332,10 +348,43 @@ fun EmailVerificationContent(onDismiss: () -> Unit){
         Surface(
             modifier = Modifier.size(70.dp),
             shape = CircleShape,
-            color = Color(0xFFE8F5E9)
+            color = Color(0xFFDCFCE7)
         ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_emailread),
+                contentDescription = null,
+                tint = Color(0xFF16A34A),
+                modifier = Modifier.padding(18.dp)
+            )
+        }
 
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Text(
+            text = "¡Correo enviado!",
+            fontSize = 24.sp,
+            fontWeight = FontWeight.ExtraBold
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Text(
+            text = "Si existe una cuenta con este correo, recibirás un mensaje con los pasos para continuar. Revisa tu bandeja de entrada o la carpeta de Spam.",
+            fontSize = 14.sp,
+            color = Color.Gray,
+            textAlign = TextAlign.Center,
+            lineHeight = 20.sp
+        )
+
+        Spacer(modifier = Modifier.height(32.dp))
+
+        OutlinedButton(
+            onClick = onDismiss,
+            modifier = Modifier.fillMaxWidth().height(50.dp),
+            shape = RoundedCornerShape(12.dp),
+            border = BorderStroke(1.dp, Color.LightGray.copy(alpha = 0.5f))
+        ) {
+            Text("Entendido, volver", color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 16.sp)
         }
     }
-
 }

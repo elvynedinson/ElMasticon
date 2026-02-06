@@ -149,6 +149,9 @@ fun LoginScreen(navController: NavController) {
                 style = TextStyle(fontSize = 15.sp),
                 modifier = Modifier
                     .align(Alignment.End)
+                    .clickable{
+                        navController.navigate(Routes.FORGOTPASSWORD)
+                    }
                     .padding(top = 8.dp),
                 color = Color(0xFFEC1313),
                 fontWeight = FontWeight.SemiBold
