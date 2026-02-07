@@ -7,8 +7,8 @@ import androidx.navigation.compose.composable
 import com.evydev.elmasticon.completeProfile.CompleteProfileScreen
 import com.evydev.elmasticon.forgotPassword.ForgotPasswordScreen
 import com.evydev.elmasticon.home.HomeScreen
-import com.evydev.elmasticon.login.LoginScreen
-import com.evydev.elmasticon.register.RegisterScreen
+import com.evydev.elmasticon.auth.login.LoginScreen
+import com.evydev.elmasticon.auth.register.RegisterScreen
 
 @Composable
 fun AppNavHost(navController: NavHostController){

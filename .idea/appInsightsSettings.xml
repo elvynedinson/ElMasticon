@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.evydev.elmasticon" />
+                  <option name="mobileSdkAppId" value="1:1042692763799:android:38eee8999c8ac1eacf39d2" />
+                  <option name="projectId" value="elmasticonapp" />
+                  <option name="projectNumber" value="1042692763799" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

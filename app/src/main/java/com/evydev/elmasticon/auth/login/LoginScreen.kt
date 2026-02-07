@@ -1,4 +1,4 @@
-package com.evydev.elmasticon.login
+package com.evydev.elmasticon.auth.login
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
