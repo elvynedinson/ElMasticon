@@ -55,12 +55,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.evydev.elmasticon.R
+import com.evydev.elmasticon.navigation.Routes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(navController: NavController) {
 
-    val sheetState = rememberModalBottomSheetState()
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
     var showSheet by remember { mutableStateOf(false) }
 
     var name by rememberSaveable { mutableStateOf("") }
@@ -159,7 +162,7 @@ fun RegisterScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
-            onClick = { showSheet = true},
+            onClick = { showSheet = true },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp),
@@ -259,19 +262,19 @@ fun RegisterScreen(navController: NavController) {
 
     }
 
-    if (showSheet){
+    if (showSheet) {
         ModalBottomSheet(
             onDismissRequest = { showSheet = false },
             sheetState = sheetState,
             containerColor = Color.White,
             dragHandle = { BottomSheetDefaults.DragHandle() }
         ) {
-            EmailVerificationContent {
-                showSheet = false
-            }
+            EmailVerificationContent(
+                navController = navController,
+                onDismiss = { showSheet = false }
+            )
         }
     }
-
 }
 
 
@@ -337,7 +340,7 @@ fun RegisterTextField(
 }
 
 @Composable
-fun EmailVerificationContent(onDismiss: () -> Unit){
+fun EmailVerificationContent(onDismiss: () -> Unit, navController: NavController) {
 
     Column(
         modifier = Modifier
@@ -379,12 +382,45 @@ fun EmailVerificationContent(onDismiss: () -> Unit){
         Spacer(modifier = Modifier.height(32.dp))
 
         OutlinedButton(
-            onClick = onDismiss,
-            modifier = Modifier.fillMaxWidth().height(50.dp),
+            onClick = {},
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
             shape = RoundedCornerShape(12.dp),
             border = BorderStroke(1.dp, Color.LightGray.copy(alpha = 0.5f))
         ) {
-            Text("Entendido, volver", color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+            Text(
+                text = "Reenviar",
+                style = TextStyle(
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
+                )
+            )
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        OutlinedButton(
+            onClick = {
+                onDismiss()
+                navController.navigate(Routes.LOGIN)
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
+            shape = RoundedCornerShape(12.dp),
+            border = BorderStroke(1.dp, Color.LightGray.copy(alpha = 0.5f))
+        ) {
+            Text(
+                text = "Entendido, volver",
+                style = TextStyle(
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
+                )
+            )
+        }
+
     }
 }
