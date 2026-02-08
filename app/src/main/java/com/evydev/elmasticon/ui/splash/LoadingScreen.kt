@@ -1,4 +1,4 @@
-package com.evydev.elmasticon.splash
+package com.evydev.elmasticon.ui.splash
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box

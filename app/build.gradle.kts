@@ -6,9 +6,8 @@ plugins {
 
 android {
     namespace = "com.evydev.elmasticon"
-    compileSdk {
-        version = release(36)
-    }
+    // Subimos a 36 para que coincida con lo que piden tus librerías de AndroidX
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.evydev.elmasticon"
@@ -33,14 +32,13 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    buildFeatures {
-        compose = true
-    }
 }
 
 dependencies {
-    implementation(platform("com.google.firebase:firebase-bom:34.9.0"))
-    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-common-ktx")
+
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)

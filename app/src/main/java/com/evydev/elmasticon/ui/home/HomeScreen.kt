@@ -1,4 +1,4 @@
-package com.evydev.elmasticon.home
+package com.evydev.elmasticon.ui.home
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

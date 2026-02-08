@@ -1,4 +1,4 @@
-package com.evydev.elmasticon.splash
+package com.evydev.elmasticon.ui.splash
 
 sealed class SplashUiState {
 
