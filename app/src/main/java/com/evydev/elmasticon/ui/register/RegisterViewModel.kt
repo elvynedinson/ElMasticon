@@ -102,6 +102,8 @@ class RegisterViewModel(
 
         val passwordError = if (currentPassword.isBlank()) {
             "Este campo no puede estar vacio"
+        } else if (currentPassword.length <8){
+            "La contraseña debe tener al menos 8 caracteres"
         } else {
             null
         }
@@ -133,7 +135,7 @@ class RegisterViewModel(
 
                 _state.value = RegisterUiState.Loading
 
-                repository.register(_formState.value.email, _formState.value.password)
+                val result = repository.register(_formState.value.email, _formState.value.password)
 
                     .onSuccess {
                         _state.value = RegisterUiState.Success
