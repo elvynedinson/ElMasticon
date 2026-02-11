@@ -164,7 +164,7 @@ fun LoginScreen(
                     onValueChange = { password = it },
                     isPassword = true,
                     leadingIcon = R.drawable.ic_lock,
-                    error = passwordError
+                    error = passwordError,
                 )
 
                 Text(
@@ -185,7 +185,6 @@ fun LoginScreen(
                 Button(
                     onClick = {
 
-
                         emailError =
                             if (email.isBlank()) "El correo es obligatorio" else null
 
@@ -196,6 +195,7 @@ fun LoginScreen(
                             viewModel.login(email, password)
                         }
                     },
+
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(56.dp),
@@ -229,7 +229,7 @@ fun LoginScreen(
                     is LoginUiState.Error -> {
                         Text(
                             text = (state as LoginUiState.Error).message,
-                            color = MaterialTheme.colorScheme.error
+                            color = Color.Red
                         )
                     }
                 }
@@ -329,7 +329,7 @@ fun LoginTextField(
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(text = label, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 8.dp))
         OutlinedTextField(
-
+            singleLine = true,
             value = value,
             onValueChange = onValueChange,
             modifier = Modifier.fillMaxWidth(),

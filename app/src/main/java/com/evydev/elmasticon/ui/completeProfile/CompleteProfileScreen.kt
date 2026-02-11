@@ -228,6 +228,7 @@ fun CompleteProfileTextField(
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(text = label, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 8.dp))
         OutlinedTextField(
+            singleLine = true,
             value = value,
             onValueChange = onValueChange,
             modifier = Modifier.fillMaxWidth(),

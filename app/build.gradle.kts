@@ -6,7 +6,6 @@ plugins {
 
 android {
     namespace = "com.evydev.elmasticon"
-    // Subimos a 36 para que coincida con lo que piden tus librerías de AndroidX
     compileSdk = 36
 
     defaultConfig {

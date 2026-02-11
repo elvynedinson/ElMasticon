@@ -23,4 +23,23 @@ class AuthRepository {
             Result.failure(Exception("Ocurrió un error, intenta nuevamente"))
         }
     }
+
+    suspend fun register(email: String, password: String): Result<Unit>{
+        return try {
+            val result = auth.createUserWithEmailAndPassword(email, password).await()
+
+            result.user?.sendEmailVerification()?.await()
+
+            Result.success(Unit)
+
+        }catch (e: FirebaseAuthInvalidUserException){
+            Result.failure(Exception("Este correo no está registrado"))
+
+        } catch (e: FirebaseAuthInvalidCredentialsException){
+            Result.failure(Exception("Correo o contraseña incorrecta"))
+
+        } catch (e: Exception){
+            Result.failure(Exception(""))
+        }
+    }
 }
