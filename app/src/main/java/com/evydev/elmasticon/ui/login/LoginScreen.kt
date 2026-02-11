@@ -69,13 +69,9 @@ fun LoginScreen(
     viewModel: LoginViewModel = viewModel()
 ) {
 
+    val loginFormState by viewModel.loginFormState.collectAsState()
+
     val state by viewModel.state.collectAsState()
-
-    var email by rememberSaveable { mutableStateOf("") }
-    var password by rememberSaveable { mutableStateOf("") }
-
-    var emailError by remember { mutableStateOf<String?>(null) }
-    var passwordError by remember { mutableStateOf<String?>(null) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -149,10 +145,10 @@ fun LoginScreen(
                 LoginTextField(
                     label = "Correo electrónico",
                     placeholder = "ejemplo@correo.com",
-                    value = email,
-                    onValueChange = { email = it },
+                    value = loginFormState.email,
+                    onValueChange = { viewModel.onEmailChange(it)},
                     leadingIcon = R.drawable.ic_mail,
-                    error = emailError
+                    error = loginFormState.emailError
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -160,11 +156,11 @@ fun LoginScreen(
                 LoginTextField(
                     label = "Contraseña",
                     placeholder = "********",
-                    value = password,
-                    onValueChange = { password = it },
+                    value = loginFormState.password,
+                    onValueChange = { viewModel.onPasswordChange(it) },
                     isPassword = true,
                     leadingIcon = R.drawable.ic_lock,
-                    error = passwordError,
+                    error = loginFormState.passwordError
                 )
 
                 Text(
@@ -183,18 +179,7 @@ fun LoginScreen(
                 Spacer(modifier = Modifier.height(20.dp))
 
                 Button(
-                    onClick = {
-
-                        emailError =
-                            if (email.isBlank()) "El correo es obligatorio" else null
-
-                        passwordError =
-                            if (password.isBlank()) "La contraseña es obligatoria" else null
-
-                        if (emailError == null && passwordError == null) {
-                            viewModel.login(email, password)
-                        }
-                    },
+                    onClick = { viewModel.login() },
 
                     modifier = Modifier
                         .fillMaxWidth()
