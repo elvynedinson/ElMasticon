@@ -1,11 +1,10 @@
 package com.evydev.elmasticon.ui.register
 
-sealed class RegisterUiState{
+sealed interface RegisterUiState{
+    data object Idle: RegisterUiState
+    data object Loading: RegisterUiState
+    data object Success: RegisterUiState
 
-    object Idle: RegisterUiState()
-    object Loading: RegisterUiState()
-    object Success: RegisterUiState()
-
-    data class Error(val message: String): RegisterUiState()
+    data class Error(val message: String): RegisterUiState
 
 }

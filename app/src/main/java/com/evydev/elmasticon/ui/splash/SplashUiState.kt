@@ -1,11 +1,10 @@
 package com.evydev.elmasticon.ui.splash
 
-sealed class SplashUiState {
+sealed interface SplashUiState {
 
-    object Loading: SplashUiState()
+    data object Loading: SplashUiState
+    data object Success: SplashUiState
 
-    object Success: SplashUiState()
-
-    data class Error(val message: String): SplashUiState()
+    data class Error(val message: String): SplashUiState
 
 }

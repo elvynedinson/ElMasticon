@@ -1,12 +1,10 @@
 package com.evydev.elmasticon.ui.login
 
-sealed class LoginUiState{
+sealed interface LoginUiState{
+    data object Idle: LoginUiState
+    data object Loading: LoginUiState
+    data object Success: LoginUiState
 
-    object Idle: LoginUiState()
-    object Loading: LoginUiState()
-
-    object Success: LoginUiState()
-
-    data class Error(val message: String): LoginUiState()
+    data class Error(val message: String): LoginUiState
 
 }

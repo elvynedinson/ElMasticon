@@ -23,7 +23,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -44,6 +43,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
@@ -59,12 +59,15 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.evydev.elmasticon.R
 import com.evydev.elmasticon.navigation.Routes
+import com.evydev.elmasticon.ui.masticonLoading.MasticonLoading
 
 @Composable
 fun LoginScreen(
     navController: NavController,
     viewModel: LoginViewModel = viewModel()
 ) {
+
+    val context = LocalContext.current
 
     val loginFormState by viewModel.loginFormState.collectAsState()
 
@@ -145,7 +148,7 @@ fun LoginScreen(
                     value = loginFormState.email,
                     onValueChange = { viewModel.onEmailChange(it)},
                     leadingIcon = R.drawable.ic_mail,
-                    error = loginFormState.emailError
+                    error = loginFormState.emailError,
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -205,6 +208,15 @@ fun LoginScreen(
                             navController.navigate(Routes.HOME) {
                                 popUpTo(Routes.LOGIN) { inclusive = true }
                             }
+
+                            viewModel.signInWithGoogle(context) {email, alreadyExists ->
+                                if (alreadyExists) {
+                                    navController.navigate(Routes.HOME){
+                                        popUpTo(Routes.LOGIN) { inclusive = true }
+                                    }
+                                }
+                            }
+
                         }
                     }
 
@@ -232,7 +244,16 @@ fun LoginScreen(
                 Spacer(modifier = Modifier.height(20.dp))
 
                 OutlinedButton(
-                    onClick = {},
+                    onClick = {
+                        viewModel.signInWithGoogle(context) {email, alreadyExists ->
+                            if (alreadyExists) { navController.navigate(Routes.HOME) {
+                                    popUpTo(Routes.LOGIN) { inclusive = true}
+                                }
+                            } else {
+                                navController.navigate("completeprofile/$email")
+                            }
+                        }
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(56.dp),
@@ -284,14 +305,7 @@ fun LoginScreen(
             }
         }
         if (state is LoginUiState.Loading){
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Black.copy(alpha = 0.3f)),
-                contentAlignment = Alignment.Center
-            ){
-                CircularProgressIndicator()
-            }
+            MasticonLoading(message = "INICIANDO SESIÓN...")
         }
     }
 }
@@ -359,6 +373,7 @@ fun LoginTextField(
 
 
             colors = OutlinedTextFieldDefaults.colors(
+
                 unfocusedBorderColor = Color(0xFFF3E5E5),
                 focusedBorderColor = Color(0xFFEC1313),
                 focusedTextColor = Color.Black,

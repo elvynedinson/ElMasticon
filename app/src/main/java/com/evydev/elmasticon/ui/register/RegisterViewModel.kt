@@ -1,11 +1,14 @@
 package com.evydev.elmasticon.ui.register
 
+import android.content.Context
+import androidx.credentials.exceptions.GetCredentialCancellationException
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.evydev.elmasticon.auth.data.AuthRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlin.text.CharCategory
 
 data class RegisterFormState(
     val name: String = "",
@@ -26,45 +29,57 @@ class RegisterViewModel(
 
     private val _formState = MutableStateFlow(RegisterFormState())
     val formState: StateFlow<RegisterFormState> = _formState
+
     private val _state = MutableStateFlow<RegisterUiState>(RegisterUiState.Idle)
     val state: StateFlow<RegisterUiState> = _state
 
+    fun signInWithGoogle(context: Context, onResult: (String, Boolean) -> Unit) {
+        viewModelScope.launch {
+            repository.signInWithGoogle(context)
+                .onSuccess { email ->
+                    val uid = repository.getCurrentUserUid()
+                    if (uid != null && email != null){
+                        val exists = repository.checkIfUserExists(uid)
+                        onResult(email, exists)
+                    }
+                }
+                .onFailure { exception ->
+                    if (exception is GetCredentialCancellationException) {
+                        _state.value = RegisterUiState.Idle
+                    } else {
+                        _state.value = RegisterUiState.Error(
+                            exception.message ?: "Error al conectar con Google"
+                        )
+                    }
+                }
+        }
+    }
+
     fun onNameChanged(newName: String) {
-
         val filteredName = newName.filter { it.isLetter() || it.isWhitespace() }
-
         val capitalizedName = filteredName.replaceFirstChar {
             if (it.isLowerCase()) it.titlecase() else it.toString()
         }
-
         _formState.value = _formState.value.copy(name = capitalizedName)
     }
 
     fun onPhoneChange(newPhone: String) {
-
         val filterPhone = newPhone.filter { it.isDigit() }.take(9)
-
         _formState.value = _formState.value.copy(phone = filterPhone)
     }
 
     fun onEmailChange(newEmail: String) {
-
         val filterEmail = filterSecureText(newEmail).replace(" ", "")
-
         _formState.value = _formState.value.copy(email = filterEmail)
     }
 
     fun onPasswordChange(newPassword: String) {
-
         val filtered = filterSecureText(newPassword)
-
         _formState.value = _formState.value.copy(password = filtered)
     }
 
     fun onConfirmPasswordChange(newConfirmPassword: String) {
-
         val filtered = filterSecureText(newConfirmPassword)
-
         _formState.value = _formState.value.copy(confirmPassword = filtered)
     }
 
@@ -75,7 +90,6 @@ class RegisterViewModel(
     }
 
     fun validateForm(): Boolean {
-
         val currentName = _formState.value.name
         val currentPhone = _formState.value.phone
         val currentEmail = _formState.value.email
@@ -102,7 +116,7 @@ class RegisterViewModel(
 
         val passwordError = if (currentPassword.isBlank()) {
             "Este campo no puede estar vacio"
-        } else if (currentPassword.length <8){
+        } else if (currentPassword.length < 8) {
             "La contraseña debe tener al menos 8 caracteres"
         } else {
             null
@@ -125,22 +139,25 @@ class RegisterViewModel(
         )
 
         return nameError == null && phoneError == null && emailError == null && passwordError == null && confirmPasswordError == null
-
     }
 
     fun register() {
         viewModelScope.launch {
-
             if (validateForm()) {
-
                 _state.value = RegisterUiState.Loading
-
-                val result = repository.register(_formState.value.email, _formState.value.password)
-
+                repository.register(_formState.value.email, _formState.value.password)
                     .onSuccess {
+                        val uid = repository.getCurrentUserUid()
+                        if (uid != null){
+                            repository.saveUserProfile(
+                                uid = uid,
+                                name = _formState.value.name,
+                                phone = _formState.value.phone,
+                                email = _formState.value.email
+                            )
+                        }
                         _state.value = RegisterUiState.Success
                     }
-
                     .onFailure {
                         _state.value = RegisterUiState.Error(it.message ?: "Error")
                     }
