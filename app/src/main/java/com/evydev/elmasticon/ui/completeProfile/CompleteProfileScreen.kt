@@ -49,6 +49,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.evydev.elmasticon.R
@@ -57,7 +58,7 @@ import com.evydev.elmasticon.ui.masticonLoading.MasticonLoading
 
 @Composable
 fun CompleteProfileScreen(
-    viewModel: CompleteProfileViewModel = viewModel(),
+    viewModel: CompleteProfileViewModel = hiltViewModel(),
     navController: NavController,
     email: String
 ) {

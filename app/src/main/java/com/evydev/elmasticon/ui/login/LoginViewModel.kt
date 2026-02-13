@@ -5,9 +5,11 @@ import androidx.credentials.exceptions.GetCredentialCancellationException
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.evydev.elmasticon.auth.data.AuthRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import kotlin.text.CharCategory
 
 data class LoginFormState(
@@ -17,8 +19,9 @@ data class LoginFormState(
     val passwordError: String? = null
 )
 
-class LoginViewModel(
-    private val repository: AuthRepository = AuthRepository()
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val repository: AuthRepository
 ): ViewModel() {
 
     private val _loginFormState = MutableStateFlow(LoginFormState())

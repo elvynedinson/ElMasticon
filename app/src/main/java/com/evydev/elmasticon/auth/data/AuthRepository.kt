@@ -15,11 +15,12 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.tasks.await
 import com.google.firebase.firestore.FirebaseFirestore
+import javax.inject.Inject
 
-class AuthRepository {
-    private val auth = FirebaseAuth.getInstance()
-    private val db = FirebaseFirestore.getInstance()
-
+class AuthRepository @Inject constructor(
+    private val auth: FirebaseAuth,
+    private val db: FirebaseFirestore
+){
 
     suspend fun saveUserProfile(uid: String, name: String, phone: String, email: String): Result<Unit>{
         return try {

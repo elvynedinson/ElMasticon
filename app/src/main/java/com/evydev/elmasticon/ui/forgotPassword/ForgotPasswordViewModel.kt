@@ -4,18 +4,20 @@ import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.evydev.elmasticon.auth.data.AuthRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 data class ForgotFormState(
     val email: String = "",
-
     val emailError: String? = null
 )
 
-class ForgotPasswordViewModel(
-    private val repository: AuthRepository = AuthRepository()
+@HiltViewModel
+class ForgotPasswordViewModel @Inject constructor(
+    private val repository: AuthRepository
 ) : ViewModel() {
 
     // Estados UiState

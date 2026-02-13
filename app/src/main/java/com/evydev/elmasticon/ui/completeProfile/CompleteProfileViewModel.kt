@@ -3,23 +3,23 @@ package com.evydev.elmasticon.ui.completeProfile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.evydev.elmasticon.auth.data.AuthRepository
-import com.evydev.elmasticon.ui.register.RegisterUiState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 data class CompleteFormState(
-
     val name: String = "",
     val phone: String = "",
-
     val nameError: String? = null,
     val phoneError: String? = null
 )
 
-class CompleteProfileViewModel (
-    private val repository: AuthRepository = AuthRepository()
+@HiltViewModel
+class CompleteProfileViewModel @Inject constructor(
+    private val repository: AuthRepository
 ): ViewModel(){
 
     private val _completeFormState = MutableStateFlow(CompleteFormState())

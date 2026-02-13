@@ -5,9 +5,11 @@ import androidx.credentials.exceptions.GetCredentialCancellationException
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.evydev.elmasticon.auth.data.AuthRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import kotlin.text.CharCategory
 
 data class RegisterFormState(
@@ -23,8 +25,9 @@ data class RegisterFormState(
     val confirmPasswordError: String? = null
 )
 
-class RegisterViewModel(
-    private val repository: AuthRepository = AuthRepository()
+@HiltViewModel
+class RegisterViewModel @Inject constructor(
+    private val repository: AuthRepository
 ) : ViewModel() {
 
     private val _formState = MutableStateFlow(RegisterFormState())
