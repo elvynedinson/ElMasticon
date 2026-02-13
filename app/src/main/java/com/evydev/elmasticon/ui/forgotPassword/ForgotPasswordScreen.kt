@@ -29,6 +29,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,127 +43,166 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.evydev.elmasticon.R
 import com.evydev.elmasticon.navigation.Routes
+import com.evydev.elmasticon.ui.masticonLoading.MasticonLoading
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ForgotPasswordScreen(navController: NavController) {
+fun ForgotPasswordScreen(
+
+    viewModel: ForgotPasswordViewModel = viewModel(),
+    navController: NavController
+) {
+
+    val formState by viewModel.forgotFormState.collectAsState()
+    val state by viewModel.forgotUiState.collectAsState()
+
 
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
     )
     var showSheet by remember { mutableStateOf(false) }
 
-    var email by remember { mutableStateOf("") }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-            .padding(horizontal = 24.dp)
-    ) {
-
-        Spacer(modifier = Modifier.height(40.dp))
-
-        Icon(
-            imageVector = Icons.Default.KeyboardArrowLeft,
-            contentDescription = "Atrás",
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
             modifier = Modifier
-                .size(40.dp)
-                .clickable { navController.popBackStack() }
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Box(modifier = Modifier.size(80.dp)) {
-            Surface(
-                modifier = Modifier.size(70.dp),
-                shape = RoundedCornerShape(16.dp),
-                color = Color(0xFFFDE7E7)
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_lock_reset),
-                    contentDescription = null,
-                    tint = Color.Red,
-                    modifier = Modifier.padding(16.dp)
-                )
-            }
-
-            Surface(
-                modifier = Modifier
-                    .size(21.dp)
-                    .align(Alignment.TopEnd)
-                    .offset(x = (-2).dp, y = (-7).dp),
-                shape = CircleShape,
-                color = Color.Red,
-                border = BorderStroke(2.dp, Color.White)
-
-
-            ) {}
-        }
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-        Text(
-            text = "¿Olvidaste tu\ncontraseña?",
-            style = TextStyle(
-                fontWeight = FontWeight.ExtraBold,
-                fontSize = 32.sp,
-                lineHeight = 40.sp
-            )
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(
-            text = "No te preocupes, suele pasar. Te enviaremos un correo con instrucciones para restablecer tu contraseña.",
-            modifier = Modifier.padding(end = 10.dp),
-            style = TextStyle(
-                fontSize = 16.sp,
-                color = Color.Gray,
-                lineHeight = 26.sp
-            )
-        )
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-        ForgotPasswordTextField(
-            label = "Correo Electrónico",
-            placeholder = "tu@email.com",
-            value = email,
-            onValueChange = { email = it},
-            leadingIcon = R.drawable.ic_mail
-        )
-
-        Spacer(modifier = Modifier.height(30.dp))
-
-
-        Button(
-            onClick = { showSheet = true},
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFEC1313)),
-            shape = RoundedCornerShape(12.dp)
+                .fillMaxSize()
+                .background(Color.White)
+                .padding(horizontal = 24.dp)
         ) {
-            Text("Enviar enlace", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White)
-        }
 
-        if (showSheet) {
-            ModalBottomSheet(
-                onDismissRequest = { showSheet = false },
-                sheetState = sheetState,
-                containerColor = Color.White,
-                dragHandle = { BottomSheetDefaults.DragHandle() }
+            Spacer(modifier = Modifier.height(40.dp))
+
+            Icon(
+                imageVector = Icons.Default.KeyboardArrowLeft,
+                contentDescription = "Atrás",
+                modifier = Modifier
+                    .size(40.dp)
+                    .clickable { navController.popBackStack() }
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Box(modifier = Modifier.size(80.dp)) {
+                Surface(
+                    modifier = Modifier.size(70.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    color = Color(0xFFFDE7E7)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_lock_reset),
+                        contentDescription = null,
+                        tint = Color.Red,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
+
+                Surface(
+                    modifier = Modifier
+                        .size(21.dp)
+                        .align(Alignment.TopEnd)
+                        .offset(x = (-2).dp, y = (-7).dp),
+                    shape = CircleShape,
+                    color = Color.Red,
+                    border = BorderStroke(2.dp, Color.White)
+
+
+                ) {}
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            Text(
+                text = "¿Olvidaste tu\ncontraseña?",
+                style = TextStyle(
+                    fontWeight = FontWeight.ExtraBold,
+                    fontSize = 32.sp,
+                    lineHeight = 40.sp
+                )
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = "No te preocupes, suele pasar. Te enviaremos un correo con instrucciones para restablecer tu contraseña.",
+                modifier = Modifier.padding(end = 10.dp),
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    color = Color.Gray,
+                    lineHeight = 26.sp
+                )
+            )
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            ForgotPasswordTextField(
+                label = "Correo Electrónico",
+                placeholder = "tu@email.com",
+                value = formState.email,
+                onValueChange = { viewModel.onChangeEmail(it) },
+                leadingIcon = R.drawable.ic_mail,
+                error = formState.emailError
+            )
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+
+            Button(
+                onClick = {
+
+                    viewModel.sendPasswordReset {
+                        showSheet = true
+                    }
+                },
+
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFEC1313)),
+                shape = RoundedCornerShape(12.dp)
             ) {
-                ForgotPasswordVerificationContent(
-                    navController = navController,
-                    onDismiss = { showSheet = false }
+                Text(
+                    "Enviar enlace",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
                 )
             }
+
+            if (state is ForgotPasswordUiState.Error) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = (state as ForgotPasswordUiState.Error).message,
+                    color = Color.Red,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    fontSize = 14.sp
+                )
+            }
+
+
+            if (showSheet) {
+                ModalBottomSheet(
+                    onDismissRequest = { showSheet = false },
+                    sheetState = sheetState,
+                    containerColor = Color.White,
+                    dragHandle = { BottomSheetDefaults.DragHandle() }
+                ) {
+                    ForgotPasswordVerificationContent(
+                        navController = navController,
+                        onDismiss = { showSheet = false }
+                    )
+                }
+            }
         }
+
+        if (state is ForgotPasswordUiState.Loading) {
+            MasticonLoading(message = "ENVIANDO ENLACE")
+        }
+
     }
 }
 
@@ -172,13 +212,15 @@ fun ForgotPasswordTextField(
     placeholder: String,
     value: String,
     onValueChange: (String) -> Unit,
-    leadingIcon: Int
+    leadingIcon: Int,
+    error: String? = null
 ) {
 
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(text = label, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 8.dp))
         OutlinedTextField(
             value = value,
+            singleLine = true,
             onValueChange = onValueChange,
             modifier = Modifier.fillMaxWidth(),
             placeholder = { Text(placeholder, color = Color.Gray) },
@@ -198,8 +240,16 @@ fun ForgotPasswordTextField(
                 unfocusedTextColor = Color.DarkGray,
                 cursorColor = Color(0xFFEC1313)
             )
-
         )
+
+        if (error != null) {
+            Text(
+                text = error,
+                color = Color.Red,
+                fontSize = 12.sp,
+                modifier = Modifier.padding(start = 4.dp, top = 4.dp)
+            )
+        }
     }
 }
 

@@ -128,4 +128,14 @@ class AuthRepository {
             Result.failure(Exception("Error al crear la cuenta, intenta de nuevo"))
         }
     }
+
+    suspend fun sendPasswordResetEmail(email: String): Result<Unit> {
+        return try {
+            auth.sendPasswordResetEmail(email).await()
+            Result.success(Unit)
+        } catch (e: Exception){
+            Result.failure(Exception("No se pudo enviar el correo. Intenta de nuevo."))
+        }
+    }
+
 }

@@ -116,8 +116,8 @@ class RegisterViewModel(
 
         val passwordError = if (currentPassword.isBlank()) {
             "Este campo no puede estar vacio"
-        } else if (currentPassword.length < 8) {
-            "La contraseña debe tener al menos 8 caracteres"
+        } else if (currentPassword.length < 7) {
+            "La contraseña debe tener al menos 6 caracteres"
         } else {
             null
         }

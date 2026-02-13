@@ -60,6 +60,7 @@ class LoginViewModel(
     }
 
     fun validateFormLogin(): Boolean{
+
         val currentEmail = _loginFormState.value.email
         val currentPassword = _loginFormState.value.password
 

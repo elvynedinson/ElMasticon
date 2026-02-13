@@ -390,6 +390,5 @@ fun LoginTextField(
                 modifier = Modifier.padding(start = 4.dp, top = 4.dp)
             )
         }
-
     }
 }
